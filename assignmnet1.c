@@ -8,32 +8,35 @@ struct person{
 	char firstName[26];
 	char address[61];
 };
-int fillStruct(FILE *,struct person *);
-void addPerson(FILE *,struct person *);
+int fillStruct(FILE *,struct person []);
+void addPerson(FILE *,struct person []);
 void printStructArray(FILE *,struct person [],int );
 int main()
 {
 	FILE *fp;
 	FILE *fout;
     fout=fopen("Assignment1.txt","w");
-	fp=fopen("MasterPersonList.txt","r");
-	int numLines=0;
-	struct* person personList;
+	fp=fopen("a1.txt","r");
+	int numLines=0, numEntries=0;
+	struct person personList;
 	struct person MyPerson;
+	
+	printf("How many people are in the file?");
+	scanf("%d",&numEntries);
     numLines=fillStruct(fp,personList);
-    setperson(fout,&MyPerson);
+    setPerson(fout,personList);
 	printStructArray(fout,personList,numLines);
 	fclose(fp);
 	fclose(fout);
 	return 0;
 }
-int fillStruct(FILE *fp,struct* person personList)
+int fillStruct(FILE *fp,struct person personList, numEntries)
 {
 	int i=0;
 	char *token;
 	char temp[100], comma[2]=",\0";
 
-    for(i=0;i<20;i++)
+    for(i=0;i<numEntries;i++)
     {
         //printf("error\n %d",i); - testing
 
@@ -57,23 +60,18 @@ int fillStruct(FILE *fp,struct* person personList)
     return(i);
 }
 
-void addPerson(FILE *fout,struct person *Myperson)
+void addPerson(FILE *fout,struct person MyPerson)
 {
-    char ID[10];
+    char ID[11];
 
-	printf("Enter the album name: ");
-	gets(Myperson->firstName);
-	printf("Enter the year the album was released: ");
+	printf("Enter the person's ID number: ");
 	gets(ID);
-	Myperson->ID=atoi(ID);
-	printf("Enter the album's genre: ");
-	gets(Myperson->genre);
-	printf("Enter your rating (0.0-5.0): ");
-	gets(rating);
-	Myperson->rating=atof(rating);
-	printf("Enter your name: ");
-	gets(Myperson->studentName);
-	printf("%s",Myperson->artistName);
+	MyPerson->ID=atoi(ID);
+	printf("Enter the person's last name: ");
+	gets(MyPerson->lastName);
+	printf("Enter the person's first name: ");
+	gets(MyPerson->firstName);
+	
 }
 void printStructArray(FILE *fout,struct person personList[],int n)
 {
