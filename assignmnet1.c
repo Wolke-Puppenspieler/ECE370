@@ -4,75 +4,68 @@
 
 struct person{
 	int ID;
-	char lastName[25];
-	char firstName[25];
-	char address[60];
+	char lastName[26];
+	char firstName[26];
+	char address[61];
 };
-int fillStruct(FILE *,struct person []);
-void setperson(FILE *,struct person *);
+int fillStruct(FILE *,struct person *);
+void addPerson(FILE *,struct person *);
 void printStructArray(FILE *,struct person [],int );
 int main()
 {
 	FILE *fp;
 	FILE *fout;
-    fout=fopen("quiz13.txt","w");
-	fp=fopen("MasterpersonList.txt","r");
+    fout=fopen("Assignment1.txt","w");
+	fp=fopen("MasterPersonList.txt","r");
 	int numLines=0;
-	struct person personList[20];
-	struct person Myperson;
+	struct* person personList;
+	struct person MyPerson;
     numLines=fillStruct(fp,personList);
-    setperson(fout,&Myperson);
+    setperson(fout,&MyPerson);
 	printStructArray(fout,personList,numLines);
 	fclose(fp);
 	fclose(fout);
 	return 0;
 }
-int fillStruct(FILE *fp,struct person personList[20])
+int fillStruct(FILE *fp,struct* person personList)
 {
 	int i=0;
 	char *token;
-	char year[5], rating[4], temp[100], comma[2]=",\0";
+	char temp[100], comma[2]=",\0";
 
     for(i=0;i<20;i++)
     {
         //printf("error\n %d",i); - testing
 
         fgets(temp,sizeof(temp),fp);
+
+        token=strtok(NULL,comma);
+        strcpy(ID,strdup(token));
+        personList[i]->ID=atoi(ID);
+
 		token=strtok(temp,comma);
-		strcpy(personList[i].artistName,strdup(token));
+		strcpy(personList[i]->lastName,strdup(token));
 
         token=strtok(NULL,comma);
-        strcpy(personList[i].albumName,strdup(token));
+        strcpy(personList[i]->firstName,strdup(token));
 
         token=strtok(NULL,comma);
-        strcpy(year,strdup(token));
-        personList[i].year=atoi(year);
-
-        token=strtok(NULL,comma);
-        strcpy(personList[i].genre,strdup(token));
-
-        token=strtok(NULL,comma);
-        strcpy(rating,strdup(token));
-        personList[i].rating=atof(rating);
-
-        token=strtok(NULL,comma);
-        strcpy(personList[i].studentName,strdup(token));
+        strcpy(personList[i]->address,strdup(token));
 
     }
 
     return(i);
 }
 
-void setperson(FILE *fout,struct person *Myperson)
+void addPerson(FILE *fout,struct person *Myperson)
 {
-    char year[5], rating[4];
-	printf("Enter the person's artist: ");
-	gets(Myperson->artistName);
+    char ID[10];
+
 	printf("Enter the album name: ");
-	gets(Myperson->albumName);
+	gets(Myperson->firstName);
 	printf("Enter the year the album was released: ");
-	gets(year);
-	Myperson->year=atoi(year);
+	gets(ID);
+	Myperson->ID=atoi(ID);
 	printf("Enter the album's genre: ");
 	gets(Myperson->genre);
 	printf("Enter your rating (0.0-5.0): ");
