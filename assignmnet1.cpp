@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
-#include<stdlib.h>
-#include<string.h>
+#include <stdlib.h>
+#include <string.h>
 
 using namespace std;
 
@@ -13,9 +13,9 @@ struct person{
 };
 
 int fillStruct(struct person []);
-void addPerson(struct person []);
-void sortID(struct person [], int )
-void printStructArray(FILE *,struct person [],int );
+void addPerson(struct person [], int );
+void sortID(struct person [], int );
+void printStructArray(struct person [],int );
 
 int main()
 {
@@ -45,7 +45,7 @@ int fillStruct(struct person personList)
     {
         string temp, blank;
         getline(preDefined,temp);
-        s[counter].ID = atoi(temp.c_str());
+        personList[counter].ID = atoi(temp.c_str());
         getline(preDefined,personList[counter].lastName);
 		getline(preDefined,personList[counter].firstName);
         getline(preDefined,personList[counter].address);
@@ -72,7 +72,7 @@ void addPerson(FILE *fout,struct person MyPerson)
 	
 }
 
-int ADD(person s[], int Npeople)
+int addPerson(person personList[], int counter)
 {
     int ask=0;
     cout<<"-----------------ADD A PERSON-----------------"<<endl;
@@ -86,30 +86,30 @@ int ADD(person s[], int Npeople)
         string tempID;
         cout << "Enter ID: ";
         getline(cin,tempID);
-        s[Npeople].ID = atoi(tempID.c_str());
+        personList[counter].ID = atoi(tempID.c_str());
         cout << endl << "Enter name: ";
-        getline(cin,s[Npeople].name);
+        getline(cin,personList[counter].name);
         cout << endl << "Enter address: ";
-        getline(cin,s[Npeople].address);
-        Npeople++;
-        cout << "Would you like to add another person? 1-Yes 0-No?"<<endl;
+        getline(cin,personList[counter].address);
+        counter++;
+        cout << "Would you like to add another person? 1-Yes 0-No? \n";
         cin >> ask;
     }
-    return Npeople;
+    return counter;
 }
 
-void SEARCH(person s[], int Npeople, string lastname)
+void SEARCH(person personList[], int counter, string lastname)
 {
     size_t found;
-    for (int w = 0; w<Npeople; w++)
+    for (int w = 0; w<counter; w++)
     {
-        found = (s[w].name).find(lastname);
+        found = (personList[w].name).find(lastname);
         if (found!=string::npos)
         {
             cout << endl;
-            cout << "ID: "<< s[w].ID << endl;
-            cout << "Name: "<< s[w].name << endl;
-            cout << "Address: "<< s[w].address << endl << endl;
+            cout << "ID: "<< personList[w].ID << endl;
+            cout << "Name: "<< personList[w].name << endl;
+            cout << "Address: "<< personList[w].address << endl << endl;
         }
     }
 }
@@ -134,38 +134,29 @@ void sortID(struct person personList[], int counter)
     }
     for(i=0; i<counter; i++)
     {
-        cout<<"ID Number: "<< personList[i].ID << "\n";
-        cout<<"Last Name: "<< personList[i].lastName << "\n";
-        cout<<"First Name: "<< personList[i].firstName << "\n";
-		cout<<"Address: "<< personList[i].address << "\n\n";
-    }
+		
+        cout << "ID Number: " << personList[i].ID << "\n";
+        cout << "Last Name: " << personList[i].lastName << "\n";
+        cout << "First Name: " << personList[i].firstName << "\n";
+		cout << "Address: " << personList[i].address << "\n\n";
+    
+	}
 }
 
 
-void printStructArray(FILE *fout,struct person personList[],int n)
+void printStructArray(struct person personList[],int counter)
 {
     int i;
 
-    printf("\n\tArtist\t \tAlbum\t \tYear\t \tGenre\t \tRating\t \tStudent\t");
+    cout << "\n\tID Number\t \tFirst Name\t \tLast Name\t \tStreet Address\t");
 
-    for(i=0;i<20;i++)
+    for(i=0;i<counter;i++)
     {
 
-        printf("%s",personList[i].artistName);
-        printf("\t\t%s\t",personList[i].albumName);
-        printf("\t%d",personList[i].year);
-        printf("\t%s",personList[i].genre);
-        printf("\t%.1f",personList[i].rating);
-        printf("\t%s",personList[i].studentName);
-        printf("\n");
-
-        fprintf(fout,"%s \t",personList[i].artistName);
-        fprintf(fout,"%s \t",personList[i].albumName);
-        fprintf(fout,"%d \t",personList[i].year);
-        fprintf(fout,"%s \t",personList[i].genre);
-        fprintf(fout,"%.1f \t",personList[i].rating);
-        fprintf(fout,"%s \t",personList[i].studentName);
-        fprintf(fout,"\n");
-
+        cout << personList[i].ID;
+        cout << "\t\t" << personList[i].firstName << "\t";
+        cout << "\t" << personList[i].lastName;
+        cout << "\t" << personList[i].address << "\n";
+		
     }
 }
