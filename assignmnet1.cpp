@@ -1,4 +1,4 @@
-#include <iostream>
+include <iostream>
 #include <fstream>
 #include <stdlib.h>
 #include <string.h>
@@ -21,49 +21,57 @@ void printArray(struct person [],int );
 int main()
 {
 
-	int counter=0;
+	int counter=0, run=1;
 	char selection;
 	struct person personList[20];
 	struct person MyPerson;
 
-	 counter=fillStruct(personList);
+	//populate array from file
+	counter=fillStruct(personList);
 
     //display menu
 
     cout << "Please make your selection:\n";
     cout << "Add person: A\t" << "Search list: S\t" << "Print list: P\t" << "Quit: Q\n\n";
 
-	switch(selection)
-    {
 
-        case 'A':case 'a':
-        {
-            system("cls");
-            addPerson(personList, counter);
+	while(run)
+	{
+		switch(selection)
+		{
 
-        }
-        break;
-        case 'S':case 's':
-        {
+			case 'A':case 'a':
+			{
+				system("cls");
+				addPerson(personList, counter);
 
-            searchList(personList);
+			}
+			break;
+			case 'S':case 's':
+			{
 
-        }
-        break;
-        case 'P':case 'p':
-        {
+				system("cls");
+				searchList(personList);
 
-            printArray(personList, counter);
+			}
+			break;
+			case 'P':case 'p':
+			{
 
-        }
-        break;
-        case 'Q':case 'q':
-        {
+				system("cls");
+				printArray(personList, counter);
 
-            return 0;
+			}
+			break;
+			case 'Q':case 'q':
+			{
 
-        }
+				run=0;
 
+			}
+			break;
+
+		}
 
     }
 
@@ -138,59 +146,81 @@ int addPerson(person personList[], int counter)
 
 void searchLast(person personList[], int counter)
 {
-	int i;
+	int i, mode;
+	string query;
     size_t found;
-    for (int i = 0; i<counter; i++)
-    {
-        cout << "Enter F to search by first name\nEnter L to search by last name\nEnter I to search by ID #";
-        switch(query)
 
-        found = (personList[i].lastName).find(lastname);
-        if (found!=string::npos)
-        {
-            cout << "\n";
-            cout << "ID: " << personList[i].ID << "\n";
-            cout << "Last Name: " << personList[i].lastName << "\n";
-            cout << "First Name: " << personList[i].firstName << "\n";
-            cout << "Address: " << personList[i].address << "\n\n";
-        }
-    }
-}
+	cout << "Enter F to search by first name\nEnter L to search by last name\nEnter I to search by ID #";
+	switch(query)
+	{
+		case 'F':case 'f':
+		{
+			cout << "Enter the name you wish to query";
+			cin >> query;
+			mode=1;
+		}
+		break;
+		case 'L':case 'l':
+		{
+			cout << "Enter the name you wish to query";
+			cin >> query;
+			mode=1;
+		}
+		case 'I':case 'i':
+		{
 
-void searchFirst(person personList[], int counter)
-{
-	int i;
-    size_t found;
-    for (int i = 0; i<counter; i++)
-    {
-        found = (personList[i].lastName).find(lastname);
-        if (found!=string::npos)
-        {
-            cout << "\n";
-            cout << "ID: " << personList[i].ID << "\n";
-            cout << "Last Name: " << personList[i].lastName << "\n";
-            cout << "First Name: " << personList[i].firstName << "\n";
-            cout << "Address: " << personList[i].address << "\n\n";
-        }
-    }
-}
+			cout << "Enter the ID # you wish to query";
+			cin >> query;
+			mode=2;
 
-void searchID(person personList[], int counter)
-{
-	int i;
-    size_t found;
-    for (int i = 0; i<counter; i++)
-    {
-        found = (personList[i].lastName).find(lastname);
-        if (found!=string::npos)
-        {
-            cout << "\n";
-            cout << "ID: " << personList[i].ID << "\n";
-            cout << "Last Name: " << personList[i].lastName << "\n";
-            cout << "First Name: " << personList[i].firstName << "\n";
-            cout << "Address: " << personList[i].address << "\n\n";
-        }
-    }
+		}
+
+		switch(mode)
+		{
+
+			case 1:
+			{
+				 for (int i = 0; i<counter; i++)
+				{
+
+					found = (personList[i].lastName).find(query);
+					if (found!=string::npos)
+					{
+						cout << "\n";
+						cout << "ID: " << personList[i].ID << "\n";
+						cout << "Last Name: " << personList[i].lastName << "\n";
+						cout << "First Name: " << personList[i].firstName << "\n";
+						cout << "Address: " << personList[i].address << "\n\n";
+					}
+				}
+			}
+			break;
+			case 2:
+			{
+
+				 for (int i = 0; i<counter; i++)
+				 {
+
+					 if(personList[i].ID==stoi(query))
+					 {
+
+						cout << "\n";
+						cout << "ID: " << personList[i].ID << "\n";
+						cout << "Last Name: " << personList[i].lastName << "\n";
+						cout << "First Name: " << personList[i].firstName << "\n";
+						cout << "Address: " << personList[i].address << "\n\n";
+
+					 }
+
+
+				 }
+			}
+			break;
+
+
+
+		}
+
 }
 
 void sortID(struct person personList[], int counter)
