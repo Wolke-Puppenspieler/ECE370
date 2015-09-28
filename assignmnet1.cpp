@@ -43,6 +43,7 @@ int fillStruct(struct person personList)
 
 	while(preDefined.peek()!=EOF)
     {
+		
         string temp, blank;
         getline(preDefined,temp);
         personList[counter].ID = atoi(temp.c_str());
@@ -51,6 +52,7 @@ int fillStruct(struct person personList)
         getline(preDefined,personList[counter].address);
         getline(preDefined,blank);
         counter++;
+		
     }
 
     preDefined.close();
@@ -58,31 +60,34 @@ int fillStruct(struct person personList)
     return counter;
 }
 
-void addPerson(FILE *fout,struct person MyPerson)
+void addPerson(struct person MyPerson, int* counterPtr)
 {
     char ID[11];
 
 	printf("Enter the person's ID number: ");
 	gets(ID);
 	MyPerson->ID=atoi(ID);
-	printf("Enter the person's last name: ");
+	printf("Enter the person's last name: ") ;
 	gets(MyPerson->lastName);
-	printf("Enter the person's first name: ");
+	cout << "Enter the person's first name:";
 	gets(MyPerson->firstName);
+	counterPtr->++;
+	
+	
 	
 }
 
 int addPerson(person personList[], int counter)
 {
     int ask=0;
-    cout<<"-----------------ADD A PERSON-----------------"<<endl;
-    cout <<endl;
-    cout << "Would you like to add another person? 1-Yes 0-No?"<<endl;
+    cout << "Add a person\n";
+    cout << "\n";
+    cout << "Would you like to add another person? 1-Yes 0-No?\n";
     cin >> ask;
     while(ask)
     {
-        cin.clear();// allows the program to become aligned and brings the cursor to the appropriate area on the program.
-        cin.sync(); //
+        cin.clear();// clear input buffer
+        cin.sync();
         string tempID;
         cout << "Enter ID: ";
         getline(cin,tempID);
@@ -92,24 +97,25 @@ int addPerson(person personList[], int counter)
         cout << endl << "Enter address: ";
         getline(cin,personList[counter].address);
         counter++;
-        cout << "Would you like to add another person? 1-Yes 0-No? \n";
+        cout << "Add another person? 1-Yes 0-No? \n";
         cin >> ask;
     }
     return counter;
 }
 
-void SEARCH(person personList[], int counter, string lastname)
+void search(person personList[], int counter, string lastname)
 {
+	int i;
     size_t found;
-    for (int w = 0; w<counter; w++)
+    for (int i = 0; i<counter; i++)
     {
-        found = (personList[w].name).find(lastname);
+        found = (personList[i].name).find(lastname);
         if (found!=string::npos)
         {
-            cout << endl;
-            cout << "ID: "<< personList[w].ID << endl;
-            cout << "Name: "<< personList[w].name << endl;
-            cout << "Address: "<< personList[w].address << endl << endl;
+            cout << "\n";
+            cout << "ID: "<< personList[w].ID << "\n";
+            cout << "Name: "<< personList[w].name << "\n";
+            cout << "Address: "<< personList[w].address << "\n\n";
         }
     }
 }
