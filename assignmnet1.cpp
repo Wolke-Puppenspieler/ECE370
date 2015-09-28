@@ -32,7 +32,7 @@ int main()
 	return 0;
 }
 
-int fillStruct(struct person personList)
+int fillStruct(struct person personList[])
 {
 	ifstream preDefined;
 	preDefined.open("a1.txt");
@@ -60,45 +60,40 @@ int fillStruct(struct person personList)
     return counter;
 }
 
-void addPerson(struct person MyPerson, int* counterPtr)
-{
-    char ID[11];
-
-	printf("Enter the person's ID number: ");
-	gets(ID);
-	MyPerson->ID=atoi(ID);
-	printf("Enter the person's last name: ") ;
-	gets(MyPerson->lastName);
-	cout << "Enter the person's first name:";
-	gets(MyPerson->firstName);
-	counterPtr->++;
-	
-	
-	
-}
 
 int addPerson(person personList[], int counter)
 {
-    int ask=0;
+    int response=0;
     cout << "Add a person\n";
     cout << "\n";
-    cout << "Would you like to add another person? 1-Yes 0-No?\n";
-    cin >> ask;
-    while(ask)
+    cout << "Would you like to add another person? Yes: 1 No: 0\n";
+    cin >> response;
+	
+    while(response)
     {
-        cin.clear();// clear input buffer
+		
+        cin.clear();
         cin.sync();
         string tempID;
-        cout << "Enter ID: ";
+        
+		cout << "Input ID: ";
         getline(cin,tempID);
-        personList[counter].ID = atoi(tempID.c_str());
-        cout << endl << "Enter name: ";
-        getline(cin,personList[counter].name);
-        cout << endl << "Enter address: ";
+		personList[counter].ID = atoi(tempID.c_str());
+        
+		cout  << "\nInput last name: ";
+		getline(cin,personList[counter].lastName);
+		
+		cout  << "\nInput first name: ";
+        getline(cin,personList[counter].firstName);
+		
+        cout << "\nInput address: ";
         getline(cin,personList[counter].address);
-        counter++;
-        cout << "Add another person? 1-Yes 0-No? \n";
+        
+		counter++;
+        
+		cout << "\nAdd another person? Yes: 1 No: 0\n";
         cin >> ask;
+		
     }
     return counter;
 }
@@ -138,6 +133,7 @@ void sortID(struct person personList[], int counter)
             }
         }
     }
+	
     for(i=0; i<counter; i++)
     {
 		
