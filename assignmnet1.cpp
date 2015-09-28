@@ -7,28 +7,66 @@ using namespace std;
 
 struct person{
 	int ID;
-	char lastName[26];
-	char firstName[26];
-	char address[61];
+	string lastName;
+	string firstName;
+	string address;
 };
 
 int fillStruct(struct person []);
-void addPerson(struct person [], int );
+int addPerson(struct person [], int );
 void sortID(struct person [], int );
-void printStructArray(struct person [],int );
+void searchList(struct person []);
+void printArray(struct person [],int );
 
 int main()
 {
 
-	int numLines=0, counter=0;
+	int counter=0;
+	char selection;
 	struct person personList[20];
 	struct person MyPerson;
-	
-    counter=fillStruct(personList);
-    setPerson(fout,personList);
-	printStructArray(fout,personList,numLines);
-	fclose(fp);
-	fclose(fout);
+
+	 counter=fillStruct(personList);
+
+    //display menu
+
+    cout << "Please make your selection:\n";
+    cout << "Add person: A\t" << "Search list: S\t" << "Print list: P\t" << "Quit: Q\n\n";
+
+	switch(selection)
+    {
+
+        case 'A':case 'a':
+        {
+            system("cls");
+            addPerson(personList, counter);
+
+        }
+        break;
+        case 'S':case 's':
+        {
+
+            searchList(personList);
+
+        }
+        break;
+        case 'P':case 'p':
+        {
+
+            printArray(personList, counter);
+
+        }
+        break;
+        case 'Q':case 'q':
+        {
+
+            return 0;
+
+        }
+
+
+    }
+
 	return 0;
 }
 
@@ -36,14 +74,14 @@ int fillStruct(struct person personList[])
 {
 	ifstream preDefined;
 	preDefined.open("a1.txt");
-	
+
 	cout << "Opened file\n Begin data parse\n";
-	
+
     int counter=0;
 
 	while(preDefined.peek()!=EOF)
     {
-		
+
         string temp, blank;
         getline(preDefined,temp);
         personList[counter].ID = atoi(temp.c_str());
@@ -52,7 +90,7 @@ int fillStruct(struct person personList[])
         getline(preDefined,personList[counter].address);
         getline(preDefined,blank);
         counter++;
-		
+
     }
 
     preDefined.close();
@@ -66,51 +104,91 @@ int addPerson(person personList[], int counter)
     int response=0;
     cout << "Add a person\n";
     cout << "\n";
-    cout << "Would you like to add another person? Yes: 1 No: 0\n";
+    cout << "Would you like to add a person? Yes: 1 No: 0\n";
     cin >> response;
-	
+
     while(response)
     {
-		
+
         cin.clear();
         cin.sync();
         string tempID;
-        
+
 		cout << "Input ID: ";
         getline(cin,tempID);
 		personList[counter].ID = atoi(tempID.c_str());
-        
+
 		cout  << "\nInput last name: ";
 		getline(cin,personList[counter].lastName);
-		
+
 		cout  << "\nInput first name: ";
         getline(cin,personList[counter].firstName);
-		
+
         cout << "\nInput address: ";
         getline(cin,personList[counter].address);
-        
+
 		counter++;
-        
+
 		cout << "\nAdd another person? Yes: 1 No: 0\n";
-        cin >> ask;
-		
+        cin >> response;
+
     }
     return counter;
 }
 
-void search(person personList[], int counter, string lastname)
+void searchLast(person personList[], int counter)
 {
 	int i;
     size_t found;
     for (int i = 0; i<counter; i++)
     {
-        found = (personList[i].name).find(lastname);
+        cout << "Enter F to search by first name\nEnter L to search by last name\nEnter I to search by ID #";
+        switch(query)
+
+        found = (personList[i].lastName).find(lastname);
         if (found!=string::npos)
         {
             cout << "\n";
-            cout << "ID: "<< personList[w].ID << "\n";
-            cout << "Name: "<< personList[w].name << "\n";
-            cout << "Address: "<< personList[w].address << "\n\n";
+            cout << "ID: " << personList[i].ID << "\n";
+            cout << "Last Name: " << personList[i].lastName << "\n";
+            cout << "First Name: " << personList[i].firstName << "\n";
+            cout << "Address: " << personList[i].address << "\n\n";
+        }
+    }
+}
+
+void searchFirst(person personList[], int counter)
+{
+	int i;
+    size_t found;
+    for (int i = 0; i<counter; i++)
+    {
+        found = (personList[i].lastName).find(lastname);
+        if (found!=string::npos)
+        {
+            cout << "\n";
+            cout << "ID: " << personList[i].ID << "\n";
+            cout << "Last Name: " << personList[i].lastName << "\n";
+            cout << "First Name: " << personList[i].firstName << "\n";
+            cout << "Address: " << personList[i].address << "\n\n";
+        }
+    }
+}
+
+void searchID(person personList[], int counter)
+{
+	int i;
+    size_t found;
+    for (int i = 0; i<counter; i++)
+    {
+        found = (personList[i].lastName).find(lastname);
+        if (found!=string::npos)
+        {
+            cout << "\n";
+            cout << "ID: " << personList[i].ID << "\n";
+            cout << "Last Name: " << personList[i].lastName << "\n";
+            cout << "First Name: " << personList[i].firstName << "\n";
+            cout << "Address: " << personList[i].address << "\n\n";
         }
     }
 }
@@ -118,9 +196,9 @@ void search(person personList[], int counter, string lastname)
 void sortID(struct person personList[], int counter)
 {
 	struct person temp;
-	
+
 	int i, j;
-	
+
 	for(i=0; i<counter; i++)
     {
         for(j=0; j<counter-1; j++)
@@ -133,24 +211,24 @@ void sortID(struct person personList[], int counter)
             }
         }
     }
-	
+
     for(i=0; i<counter; i++)
     {
-		
+
         cout << "ID Number: " << personList[i].ID << "\n";
         cout << "Last Name: " << personList[i].lastName << "\n";
         cout << "First Name: " << personList[i].firstName << "\n";
 		cout << "Address: " << personList[i].address << "\n\n";
-    
+
 	}
 }
 
 
-void printStructArray(struct person personList[],int counter)
+void printArray(struct person personList[],int counter)
 {
     int i;
 
-    cout << "\n\tID Number\t \tFirst Name\t \tLast Name\t \tStreet Address\t");
+    cout << "\n\tID Number\t \tFirst Name\t \tLast Name\t \tStreet Address\t";
 
     for(i=0;i<counter;i++)
     {
@@ -159,6 +237,6 @@ void printStructArray(struct person personList[],int counter)
         cout << "\t\t" << personList[i].firstName << "\t";
         cout << "\t" << personList[i].lastName;
         cout << "\t" << personList[i].address << "\n";
-		
+
     }
 }
