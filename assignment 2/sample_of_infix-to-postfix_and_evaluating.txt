@@ -1,0 +1,72 @@
+// The following are two examples: 
+// 1. for converting from infix to postfix; 
+// 2. for evaluating postfix.
+
+   //process the infix to postfix
+    void INFIX_TO_POSTFIX(char line[])
+    {
+        int i=-1;
+        this->clear();
+        //if not end of line or empty line
+        while(line[++i]!='\0')
+        {
+            if(line[i]>='0'&&line[i]<='9')
+                ProcessOperand(line[i]);//process number
+            else if(line[i]=='+'||line[i]=='*'||line[i]=='-'||line[i]=='/'||line[i]=='^')
+                ProcessOperator(line[i]);//process operator
+            else if(line[i]=='('||line[i]==')')
+                ProcessParan(line[i]);//process paranthesis.
+            else
+            {
+                cout<<"File contains improper characters"<<endl;
+                exit(0);
+            }
+        }
+        cout<<endl;
+        while(top>0)
+            queue[qt++]=pop();
+        printQueue();
+    }
+    
+    //function to evaluate the postfix expression
+    float EVALUATE_POSTFIX()
+    {
+        float x1,x2,temp;
+        for (int i=0;i<qt;i++)
+        {
+            //if a number push into our stack
+            if(queue[i]>='0'&&queue[i]<='9')
+            {
+                temp=(int)queue[i]-(int)'0';
+                push(temp);
+            }
+            else
+            {
+                x2=fpop();//pop from our stack
+                x1=fpop();//pop from our stack
+                //now evaluate the expression with our 2 numbers we poped
+                switch(queue[i])
+                {
+                    case '+':
+                        push(x1+x2);
+                        break;
+                    case '-':
+                        push(x1-x2);
+                        break;
+                    case '*':
+                        push(x1*x2);
+                        break;
+                    case '/':
+                        push(x1/x2);
+                        break;
+                    case '^':
+                        push(pow(x1,x2));
+                        break;
+                }
+            }
+        }
+        temp=fpop();
+        cout<<"= "<<temp<<endl<<endl;
+        return temp;
+    }
+    

@@ -1,0 +1,5 @@
+-linked lists always have a header and some kind of end pointer (rear)
+
+-when you have a stack, you only use and access the top of the stack,
+but you dont need a header pointer because stacks dont use the header.
+the header is top at the beginning. 

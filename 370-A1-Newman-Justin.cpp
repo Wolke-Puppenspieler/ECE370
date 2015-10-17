@@ -1,4 +1,4 @@
-include <iostream>
+#include <iostream>
 #include <fstream>
 #include <stdlib.h>
 #include <string.h>
@@ -12,34 +12,34 @@ struct person{
 	string address;
 };
 
-int fillStruct(struct person []);
-int addPerson(struct person [], int );
-void sortID(struct person [], int );
-void searchList(struct person []);
-void printArray(struct person [],int );
+int fillStruct(struct person []); //populates array from file
+int addPerson(struct person [], int ); //allows addition of entries
+void sortID(struct person [], int ); //sorts entries by ID number
+void searchList(struct person [], int ); //allows the list of entries to be searched by first/last name and ID #
+void printArray(struct person [],int ); //prints the array to the command window
 
 int main()
 {
 
 	int counter=0, run=1;
 	char selection;
-	struct person personList[20];
+	struct person personList[30]; //leaving space for entries to be added
 	struct person MyPerson;
 
 	//populate array from file
-	counter=fillStruct(personList);
+	counter=fillStruct(personList); //call function to populate array, will return #of elements in the file
 
     //display menu
-
-    cout << "Please make your selection:\n";
-    cout << "Add person: A\t" << "Search list: S\t" << "Print list: P\t" << "Quit: Q\n\n";
-
-
 	while(run)
 	{
+
+	    cout << "Please make your selection:\n";
+        cout << "Add person: A\t" << "Search list: S\t" << "Sort list: R\t" "Print list: P\t" << "Quit: Q\n\n";
+        cin >> selection;
+
+
 		switch(selection)
 		{
-
 			case 'A':case 'a':
 			{
 				system("cls");
@@ -51,7 +51,15 @@ int main()
 			{
 
 				system("cls");
-				searchList(personList);
+				searchList(personList, counter);
+
+			}
+			break;
+			case 'R':case 'r':
+			{
+
+				system("cls");
+				sortID(personList, counter);
 
 			}
 			break;
@@ -93,7 +101,7 @@ int fillStruct(struct person personList[])
         string temp, blank;
         getline(preDefined,temp);
         personList[counter].ID = atoi(temp.c_str());
-        getline(preDefined,personList[counter].lastName);
+        getline(preDefined,personList[counter].lastName,',');
 		getline(preDefined,personList[counter].firstName);
         getline(preDefined,personList[counter].address);
         getline(preDefined,blank);
@@ -109,13 +117,11 @@ int fillStruct(struct person personList[])
 
 int addPerson(person personList[], int counter)
 {
-    int response=0;
+    int response=1;
     cout << "Add a person\n";
     cout << "\n";
-    cout << "Would you like to add a person? Yes: 1 No: 0\n";
-    cin >> response;
 
-    while(response)
+    do
     {
 
         cin.clear();
@@ -140,18 +146,21 @@ int addPerson(person personList[], int counter)
 		cout << "\nAdd another person? Yes: 1 No: 0\n";
         cin >> response;
 
-    }
+    }while(response);
     return counter;
 }
 
-void searchLast(person personList[], int counter)
+void searchList(person personList[], int counter)
 {
 	int i, mode;
+	char searchType;
 	string query;
     size_t found;
 
 	cout << "Enter F to search by first name\nEnter L to search by last name\nEnter I to search by ID #";
-	switch(query)
+	cin >> searchType;
+
+	switch(searchType)
 	{
 		case 'F':case 'f':
 		{
@@ -174,7 +183,7 @@ void searchLast(person personList[], int counter)
 			mode=2;
 
 		}
-
+	}
 		switch(mode)
 		{
 
@@ -201,7 +210,7 @@ void searchLast(person personList[], int counter)
 				 for (int i = 0; i<counter; i++)
 				 {
 
-					 if(personList[i].ID==stoi(query))
+					 if(personList[i].ID==atoi(query.c_str()))
 					 {
 
 						cout << "\n";
@@ -258,15 +267,15 @@ void printArray(struct person personList[],int counter)
 {
     int i;
 
-    cout << "\n\tID Number\t \tFirst Name\t \tLast Name\t \tStreet Address\t";
+    cout << "\nID #\t First\t Last\t \t\tStreet Address\t";
 
     for(i=0;i<counter;i++)
     {
 
-        cout << personList[i].ID;
-        cout << "\t\t" << personList[i].firstName << "\t";
+        cout << "\n" << personList[i].ID;
+        cout << "\t" << personList[i].firstName;
         cout << "\t" << personList[i].lastName;
-        cout << "\t" << personList[i].address << "\n";
+        cout << "\t\t" << personList[i].address;
 
     }
 }
